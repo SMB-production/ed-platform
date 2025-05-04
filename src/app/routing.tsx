@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-dom';
 import { Suspense } from 'react';
 import { CentralLoader } from '@/shared/components';
+import { RegistrationPage, LoginPage } from '@/pages';
 
 const routes: RouteObject[] = [
   {
@@ -10,6 +11,14 @@ const routes: RouteObject[] = [
   {
     path: '/about',
     element: <>2</>,
+  },
+  {
+    path: '/registration',
+    element: <RegistrationPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
   },
   {
     path: '*',
