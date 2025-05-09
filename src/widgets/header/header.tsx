@@ -1,24 +1,42 @@
+import { AppBar, Button, Container, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useCurrentUser } from '@/shared/api/queries/auth/authApi.ts';
 import { CompanyIcon } from '@/shared/icons';
+import { useNavigate } from 'react-router-dom';
 
-const HeaderContainer = styled('header')({
+const StyledAppBar = styled(AppBar)({
   backgroundColor: '#005343',
-  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-  padding: '10px 20px',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 1000,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  padding: '10px 0',
+  boxShadow: 'none',
+});
+
+const AccountButton = styled(Button)({
+  backgroundColor: '#366A75',
+  color: '#fff',
+  marginLeft: 15,
+  fontSize: '0.875rem',
+  '&:hover': {
+    backgroundColor: '#59B29C',
+  },
 });
 
 export const Header = () => {
+  const { data: user } = useCurrentUser();
+  const navigate = useNavigate();
+
   return (
-    <HeaderContainer>
-      <CompanyIcon />
-    </HeaderContainer>
+    <StyledAppBar position="static">
+      <Container maxWidth="lg">
+        <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <CompanyIcon />
+
+          {user && (
+            <AccountButton variant="contained" size="small" onClick={() => navigate('/profile')}>
+              Личный кабинет
+            </AccountButton>
+          )}
+        </Toolbar>
+      </Container>
+    </StyledAppBar>
   );
 };

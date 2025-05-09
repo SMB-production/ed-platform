@@ -1,6 +1,8 @@
 import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Header } from '@/widgets/header';
+import { useForm } from 'react-hook-form';
+import { useCurrentUser, useLogin } from '@/shared/api/queries/auth/authApi.ts';
 
 const LoginContainer = styled(Paper)(({ theme }) => ({
   maxWidth: 500,
@@ -29,7 +31,33 @@ const RegisterButton = styled(Button)({
   },
 });
 
+type LoginFormValues = {
+  login: string;
+  password: string;
+};
+
 export const LoginPage = () => {
+  const { register, handleSubmit } = useForm<LoginFormValues>();
+  const { mutate: login, isPending } = useLogin();
+  const { refetch: refetchUser } = useCurrentUser();
+
+  const onSubmit = (data: LoginFormValues) => {
+    login(
+      {
+        email: data.login,
+        password: data.password,
+      },
+      {
+        onSuccess: () => {
+          refetchUser();
+        },
+        onError: () => {
+          alert('Неверный логин или пароль');
+        },
+      },
+    );
+  };
+
   return (
     <>
       <Header />
@@ -39,22 +67,14 @@ export const LoginPage = () => {
           <Typography variant="h5" align="center" color="#005343" gutterBottom>
             Вход в личный кабинет
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            onSubmit={(e) => {
-              e.preventDefault();
-              // логика входа
-            }}
-          >
+          <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               fullWidth
               label="E-mail или ID"
               placeholder="Введите ваш e-mail или идентификатор"
               margin="normal"
               required
-              id="login"
+              {...register('login')}
             />
             <TextField
               fullWidth
@@ -63,10 +83,10 @@ export const LoginPage = () => {
               margin="normal"
               required
               type="password"
-              id="password"
+              {...register('password')}
             />
-            <LoginButton type="submit" fullWidth variant="contained">
-              Войти
+            <LoginButton type="submit" fullWidth variant="contained" disabled={isPending}>
+              {isPending ? 'Загрузка...' : 'Войти'}
             </LoginButton>
           </Box>
           <Box textAlign="center">

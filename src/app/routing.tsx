@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from 'react-router-dom';
 import { Suspense } from 'react';
 import { CentralLoader } from '@/shared/components';
-import { RegistrationPage, LoginPage } from '@/pages';
+import { RegistrationPage, LoginPage, ProfilePage, CoursesPage, CreateCoursePage } from '@/pages';
+import { ProtectedRoute } from '@/app/providers/protected-route.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -19,6 +20,26 @@ const routes: RouteObject[] = [
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />,
+  },
+  {
+    path: '/courses',
+    element: (
+      <ProtectedRoute requiredRole={['teacher', 'admin', 'student']}>
+        <CoursesPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/create-courses',
+    element: (
+      <ProtectedRoute requiredRole={['teacher', 'admin']}>
+        <CreateCoursePage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '*',
