@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { useCurrentUser } from '@/shared/api/queries/auth/authApi.ts';
+import { CentralLoader } from '@/shared/components';
 
 type Roles = 'teacher' | 'student' | 'admin';
 
@@ -10,9 +11,9 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading, isFetched } = useCurrentUser();
 
-  if (isLoading) return null;
+  if (isLoading || !isFetched) return <CentralLoader />;
 
   if (!user) return <Navigate to="/login" replace />;
 
