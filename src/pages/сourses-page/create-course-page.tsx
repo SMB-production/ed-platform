@@ -11,6 +11,7 @@ type FormValues = {
   content: string;
   teacher: number;
   students: { id: number }[];
+  lessons: { id: number }[];
 };
 
 export const CreateCoursePage = () => {
@@ -32,6 +33,7 @@ export const CreateCoursePage = () => {
       {
         ...data,
         students: data.students.map((s) => s.id),
+        lessons: [],
       },
       {
         onSuccess: () => {

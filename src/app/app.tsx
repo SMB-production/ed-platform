@@ -5,6 +5,7 @@ import { AppRouter } from '@/app/routing.tsx';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Watermark } from '@/shared/components';
 import { AuthProvider } from '@/app/providers/AuthProvider.tsx';
+import '@/shared/mui/fonts/fonts.css';
 
 export const App = () => {
   return (

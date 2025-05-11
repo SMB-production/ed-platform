@@ -1,58 +1,15 @@
-import { Box, Button, Container, Paper, Typography, Chip } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { Header } from '@/widgets/header';
-import { useCurrentUser, useLogout } from '@/shared/api/queries/auth/authApi.ts';
+import { Box, Button, Chip, Container, Divider, Grid, Paper, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const ProfileContainer = styled(Paper)(() => ({
-  maxWidth: 800,
-  margin: '30px auto',
-  padding: '25px',
-  backgroundColor: '#fff',
-  borderRadius: 10,
-  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-}));
-
-const InfoItem = styled(Box)({
-  marginBottom: 15,
-  fontSize: 16,
-  display: 'flex',
-  gap: 12,
-});
-
-const Label = styled('span')({
-  color: '#6c757d',
-  minWidth: 140,
-});
-
-const Value = styled('span')({
-  color: '#005343',
-  fontWeight: 500,
-});
-
-const TeacherButton = styled(Button)({
-  backgroundColor: '#366A75',
-  color: '#fff',
-  marginTop: 20,
-  padding: '10px 25px',
-  '&:hover': {
-    backgroundColor: '#2a5561',
-  },
-});
-
-const LogoutButton = styled(Button)({
-  marginTop: 24,
-  backgroundColor: '#d32f2f',
-  color: '#fff',
-  '&:hover': {
-    backgroundColor: '#b71c1c',
-  },
-});
+import { useCurrentUser, useLogout } from '@/shared/api/queries/auth/authApi';
+import { useDeleteAccount } from '@/shared/api/queries/deleteAccountApi';
+import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
 
 export const ProfilePage = () => {
   const { data: user, isLoading, isError } = useCurrentUser();
   const { mutate: logout } = useLogout();
+  const { mutate: deleteAccount } = useDeleteAccount();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     logout(undefined, {
       onSuccess: () => {
@@ -61,58 +18,88 @@ export const ProfilePage = () => {
     });
   };
 
+  const handleDelete = () => {
+    if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) {
+      deleteAccount(undefined, {
+        onSuccess: () => {
+          localStorage.removeItem('auth_token');
+          navigate('/login');
+        },
+      });
+    }
+  };
+
   if (isLoading) return <Typography align="center">Загрузка...</Typography>;
   if (isError || !user) return <Typography align="center">Ошибка загрузки данных</Typography>;
 
   return (
-    <>
-      <Header />
-
-      <Container>
-        <ProfileContainer>
+    <SidebarLayout>
+      <Container maxWidth="md">
+        <Paper
+          sx={{
+            borderRadius: 4,
+            p: 4,
+            boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+            mb: 4,
+          }}
+        >
           <Typography variant="h5" gutterBottom>
             Личный кабинет
           </Typography>
+          <Divider sx={{ mb: 3 }} />
 
-          <InfoItem>
-            <Label>ФИО:</Label>
-            <Value>{user.username}</Value>
-          </InfoItem>
+          <Grid container spacing={4}>
+            {/* Левая часть — информация */}
+            <Grid item xs={12} md={6}>
+              <Stack spacing={2}>
+                <Box>
+                  <Typography color="text.secondary">ФИО</Typography>
+                  <Typography>{user.username || 'Н/Д'}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Email</Typography>
+                  <Typography>{user.email || 'Н/Д'}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Дата рождения</Typography>
+                  <Typography>{user.date_birth ? new Date(user.date_birth).toLocaleDateString() : 'Н/Д'}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">ID пользователя</Typography>
+                  <Typography>#{user.id}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Роль</Typography>
+                  <Chip
+                    label={user.is_teacher ? 'Преподаватель' : user.is_admin ? 'Администратор' : 'Ученик'}
+                    color={user.is_admin ? 'warning' : user.is_teacher ? 'info' : 'default'}
+                  />
+                </Box>
+              </Stack>
+            </Grid>
 
-          <InfoItem>
-            <Label>Электронная почта:</Label>
-            <Value>{user.email}</Value>
-          </InfoItem>
-
-          <InfoItem>
-            <Label>Дата рождения:</Label>
-            <Value>{user.date_birth ? new Date(user.date_birth).toLocaleDateString() : 'Н/Д'}</Value>
-          </InfoItem>
-
-          <InfoItem>
-            <Label>ID пользователя:</Label>
-            <Value>#{user.id}</Value>
-          </InfoItem>
-
-          <InfoItem>
-            <Label>Роль:</Label>
-            <Chip
-              label={user.is_teacher ? 'Преподаватель' : user.is_admin ? 'Администратор' : 'Ученик'}
-              sx={{ backgroundColor: '#366A75', color: '#fff', fontSize: 14 }}
-            />
-          </InfoItem>
-
-          {user.is_teacher && (
-            <TeacherButton variant="contained" onClick={() => alert('Переход в панель преподавателя')}>
-              Панель преподавателя
-            </TeacherButton>
-          )}
-
-          <LogoutButton fullWidth onClick={handleLogout}>
-            Выйти из аккаунта
-          </LogoutButton>
-        </ProfileContainer>
+            {/* Правая часть — действия */}
+            <Grid item xs={12} md={6}>
+              <Stack spacing={2}>
+                {user.is_teacher && (
+                  <Button variant="contained" color="primary" onClick={() => navigate('/courses')}>
+                    Панель преподавателя
+                  </Button>
+                )}
+                <Button variant="contained" onClick={handleLogout}>
+                  Выйти из аккаунта
+                </Button>
+                <Button variant="outlined" onClick={() => navigate('/profile/edit')}>
+                  Редактировать профиль
+                </Button>
+                <Button variant="outlined" color="error" onClick={handleDelete}>
+                  Удалить аккаунт
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Paper>
       </Container>
-    </>
+    </SidebarLayout>
   );
 };

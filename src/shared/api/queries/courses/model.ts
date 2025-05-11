@@ -11,3 +11,17 @@ export type CoursesResponse = {
   previous: string | null;
   results: Course[];
 };
+
+export type LessonShort = {
+  id: number;
+  title: string;
+};
+
+export type LearnCourseDetail = {
+  id: number;
+  title: string;
+  subject: string;
+  month: string;
+  content: string;
+  lessons: LessonShort[];
+};

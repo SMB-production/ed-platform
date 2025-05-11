@@ -22,7 +22,7 @@ export const Watermark = () => {
       <Typography
         variant="h1"
         sx={{
-          fontSize: '5vw',
+          fontSize: '7vw',
           fontWeight: 600,
           color: '#000',
           whiteSpace: 'nowrap',

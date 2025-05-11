@@ -5,6 +5,7 @@ export type CoursePayload = {
   content: string;
   teacher: number;
   students: number[];
+  lessons: number[];
 };
 
 export type Course = {

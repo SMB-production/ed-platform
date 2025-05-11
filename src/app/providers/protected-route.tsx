@@ -11,11 +11,13 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
-  const { data: user, isLoading, isFetched } = useCurrentUser();
+  const { data: user, isLoading, isFetched, isFetching, isPlaceholderData } = useCurrentUser();
 
   if (isLoading || !isFetched) return <CentralLoader />;
 
   if (!user) return <Navigate to="/login" replace />;
+
+  if (requiredRole.length === 3) return children;
 
   if (requiredRole.includes('teacher') && !user.is_teacher) {
     return <Navigate to="/profile" replace />;

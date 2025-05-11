@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Paper,
   Table,
@@ -55,12 +54,6 @@ export const CoursesPage = () => {
           </Table>
         </TableContainer>
       )}
-
-      <Box sx={{ textAlign: 'right' }}>
-        <Button variant="contained" color="success" sx={{ width: 200 }}>
-          Создать курс
-        </Button>
-      </Box>
     </SidebarLayout>
   );
 };
