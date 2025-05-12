@@ -21,6 +21,8 @@ const FormCard = styled(Paper)(({ theme }) => ({
 
 type FormValues = {
   fullName: string;
+  surname: string;
+  name: string;
   email: string;
   birthDate: string;
   password: string;
@@ -42,6 +44,8 @@ export const RegistrationPage = () => {
       date_birth: data.birthDate,
       is_teacher: false,
       is_admin: false,
+      name: data.name,
+      surname: data.surname,
     };
 
     registerUser(payload, {
@@ -68,6 +72,8 @@ export const RegistrationPage = () => {
           <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
             <Stack spacing={2}>
               <TextField fullWidth label="ФИО" required {...register('fullName')} />
+              <TextField fullWidth label="Фамилия" required {...register('surname')} />
+              <TextField fullWidth label="Имя" required {...register('name')} />
               <TextField fullWidth label="E-mail" required type="email" {...register('email')} />
               <TextField
                 fullWidth

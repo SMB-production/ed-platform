@@ -1,11 +1,37 @@
-import { Button, Container, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAllSubmissions } from '@/shared/api/queries/allSubmissionsApi.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { useState } from 'react';
 
 export const AllSubmissionsPage = () => {
-  const { data, isLoading, isError } = useAllSubmissions();
   const navigate = useNavigate();
+
+  const [filters, setFilters] = useState({
+    subject: '',
+    course: '',
+    teacher: '',
+  });
+
+  const { data, isLoading, isError } = useAllSubmissions(
+    Object.fromEntries(Object.entries(filters).filter(([_, v]) => v)),
+  );
+
+  const handleReset = () => {
+    setFilters({ subject: '', course: '', teacher: '' });
+  };
 
   return (
     <SidebarLayout>
@@ -15,6 +41,29 @@ export const AllSubmissionsPage = () => {
             Все решения домашних заданий
           </Typography>
 
+          {/* Фильтры */}
+          <Box display="flex" gap={2} mb={3} alignItems="center">
+            <TextField
+              label="Курс"
+              value={filters.course}
+              onChange={(e) => setFilters((prev) => ({ ...prev, course: e.target.value }))}
+            />
+            <TextField
+              label="Предмет"
+              value={filters.subject}
+              onChange={(e) => setFilters((prev) => ({ ...prev, subject: e.target.value }))}
+            />
+            <TextField
+              label="Преподаватель"
+              value={filters.teacher}
+              onChange={(e) => setFilters((prev) => ({ ...prev, teacher: e.target.value }))}
+            />
+            <Button variant="outlined" color="inherit" onClick={handleReset}>
+              Сбросить фильтры
+            </Button>
+          </Box>
+
+          {/* Список */}
           {isLoading && <Typography>Загрузка...</Typography>}
           {isError && <Typography color="error">Ошибка загрузки</Typography>}
 
@@ -23,6 +72,9 @@ export const AllSubmissionsPage = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
+                  <TableCell>Курс</TableCell>
+                  <TableCell>Предмет</TableCell>
+                  <TableCell>Учитель</TableCell>
                   <TableCell>Ученик</TableCell>
                   <TableCell>Урок</TableCell>
                   <TableCell>Балл</TableCell>
@@ -34,6 +86,9 @@ export const AllSubmissionsPage = () => {
                 {data.map((submission) => (
                   <TableRow key={submission.id}>
                     <TableCell>{submission.id}</TableCell>
+                    <TableCell>{submission.course}</TableCell>
+                    <TableCell>{submission.subject}</TableCell>
+                    <TableCell>{submission.teacher}</TableCell>
                     <TableCell>{submission.user}</TableCell>
                     <TableCell>{submission.homework}</TableCell>
                     <TableCell>{submission.result}</TableCell>

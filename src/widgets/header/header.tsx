@@ -28,7 +28,7 @@ export const Header = () => {
     <StyledAppBar position="static">
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <CompanyIcon />
+          <CompanyIcon onClick={() => navigate('/courses')} />
 
           {user && (
             <AccountButton variant="contained" size="small" onClick={() => navigate('/profile')}>

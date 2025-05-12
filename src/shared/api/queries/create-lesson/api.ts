@@ -7,6 +7,7 @@ export const createLesson = async (data: CreateLessonDto) => {
   const formData = new FormData();
   formData.append('title', data.title);
   formData.append('course', String(data.course));
+  formData.append('lesson_date', String(data.lesson_date));
   if (data.homework) formData.append('homework', String(data.homework));
   if (data.files) {
     data.files.forEach((file) => {

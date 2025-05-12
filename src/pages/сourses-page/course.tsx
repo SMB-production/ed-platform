@@ -2,6 +2,7 @@ import { ButtonBase, Container, Grid, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 import { useCourseById } from '@/shared/api/queries/courses';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 
 export const CourseDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,7 +11,7 @@ export const CourseDetailPage = () => {
   const navigate = useNavigate();
 
   return (
-    <SidebarLayout>
+    <PageLayout>
       <Container maxWidth="lg">
         {isLoading && <Typography>Загрузка...</Typography>}
         {isError && <Typography color="error">Ошибка при загрузке курса</Typography>}
@@ -57,6 +58,6 @@ export const CourseDetailPage = () => {
           </>
         )}
       </Container>
-    </SidebarLayout>
+    </PageLayout>
   );
 };

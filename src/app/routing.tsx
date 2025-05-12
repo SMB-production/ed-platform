@@ -29,6 +29,7 @@ import { AdminCoursesPage } from '@/pages/admin/AdminCoursesPage.tsx';
 import { EditCourseDetailPage } from '@/pages/admin/EditCourseDetailPage.tsx';
 import { CoursesSwitch } from '@/pages/сourses-page/CoursesSwitch.tsx';
 import { TaskDetailPage } from '@/pages/tasks/TaskDetailPage.tsx';
+import { HomeworkIntroPage } from '@/pages/сourses-page/HomeworkIntroPage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -70,7 +71,7 @@ const routes: RouteObject[] = [
   {
     path: '/courses/:id',
     element: (
-      <ProtectedRoute requiredRole={['teacher', 'admin', 'student']}>
+      <ProtectedRoute requiredRole={['student']}>
         <CourseDetailPage />
       </ProtectedRoute>
     ),
@@ -102,7 +103,7 @@ const routes: RouteObject[] = [
   {
     path: '/homework/:id/solve',
     element: (
-      <ProtectedRoute requiredRole={['student', 'teacher', 'admin']}>
+      <ProtectedRoute requiredRole={['student']}>
         <SolveHomeworkPage />
       </ProtectedRoute>
     ),
@@ -112,6 +113,14 @@ const routes: RouteObject[] = [
     element: (
       <ProtectedRoute requiredRole={['student', 'teacher', 'admin']}>
         <SubmittedHomeworkPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/homework/:id',
+    element: (
+      <ProtectedRoute requiredRole={['student']}>
+        <HomeworkIntroPage />
       </ProtectedRoute>
     ),
   },

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCurrentUser, useLogout } from '@/shared/api/queries/auth/authApi';
 import { useDeleteAccount } from '@/shared/api/queries/deleteAccountApi';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
+import { User } from '@/shared/api/queries/auth/model.ts';
+import { ReactNode } from 'react';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 
 export const ProfilePage = () => {
   const { data: user, isLoading, isError } = useCurrentUser();
@@ -29,11 +32,18 @@ export const ProfilePage = () => {
     }
   };
 
+  const Layout = ({ user, children }: { user: User; children: ReactNode }) => {
+    console.log(user);
+    if (user.is_admin || user.is_teacher) return <SidebarLayout>{children}</SidebarLayout>;
+
+    return <PageLayout>{children}</PageLayout>;
+  };
+
   if (isLoading) return <Typography align="center">Загрузка...</Typography>;
   if (isError || !user) return <Typography align="center">Ошибка загрузки данных</Typography>;
 
   return (
-    <SidebarLayout>
+    <Layout user={user}>
       <Container maxWidth="md">
         <Paper
           sx={{
@@ -100,6 +110,6 @@ export const ProfilePage = () => {
           </Grid>
         </Paper>
       </Container>
-    </SidebarLayout>
+    </Layout>
   );
 };

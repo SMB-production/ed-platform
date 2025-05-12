@@ -26,6 +26,13 @@ export const InlineLessonCreateForm = ({ courseId, onSuccess }: { courseId: numb
         <Typography variant="subtitle1">Новый урок</Typography>
         <TextField label="Название" fullWidth required {...register('title')} />
         <TextField
+          fullWidth
+          label="Дата урока"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          {...register('lesson_date')}
+        />
+        <TextField
           label="ID домашнего задания (необязательно)"
           type="number"
           fullWidth

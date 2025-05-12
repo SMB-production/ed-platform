@@ -3,21 +3,42 @@ import {
   Button,
   Chip,
   Container,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from '@mui/material';
 import { useTaskBank } from '@/shared/api/queries/taskBankApi.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export const TaskBankPage = () => {
-  const { data, isLoading, isError } = useTaskBank();
   const navigate = useNavigate();
+
+  const [filters, setFilters] = useState({
+    subject: '',
+    exam_number: '',
+    is_auto: '',
+  });
+
+  const { data, isLoading, isError } = useTaskBank(
+    Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '')),
+  );
+
+  const handleReset = () => {
+    setFilters({
+      subject: '',
+      exam_number: '',
+      is_auto: '',
+    });
+  };
 
   return (
     <SidebarLayout>
@@ -30,6 +51,35 @@ export const TaskBankPage = () => {
             </Button>
           </Box>
 
+          {/* Фильтры */}
+          <Box display="flex" gap={2} mb={3} alignItems="center">
+            <TextField
+              label="Предмет"
+              value={filters.subject}
+              onChange={(e) => setFilters((prev) => ({ ...prev, subject: e.target.value }))}
+            />
+            <TextField
+              label="Номер задания"
+              type="number"
+              value={filters.exam_number}
+              onChange={(e) => setFilters((prev) => ({ ...prev, exam_number: e.target.value }))}
+            />
+            <Select
+              displayEmpty
+              value={filters.is_auto}
+              onChange={(e) => setFilters((prev) => ({ ...prev, is_auto: e.target.value }))}
+              sx={{ minWidth: 150 }}
+            >
+              <MenuItem value="">Авто-проверка?</MenuItem>
+              <MenuItem value="true">Да</MenuItem>
+              <MenuItem value="false">Нет</MenuItem>
+            </Select>
+            <Button variant="outlined" onClick={handleReset}>
+              Сбросить фильтры
+            </Button>
+          </Box>
+
+          {/* Таблица */}
           {isLoading && <Typography>Загрузка...</Typography>}
           {isError && <Typography color="error">Ошибка при загрузке</Typography>}
 
@@ -41,7 +91,7 @@ export const TaskBankPage = () => {
                   <TableCell>Вопрос</TableCell>
                   <TableCell>Ответ</TableCell>
                   <TableCell>Предмет</TableCell>
-                  <TableCell>Категория</TableCell>
+                  <TableCell>Номер задания</TableCell>
                   <TableCell>Авто?</TableCell>
                   <TableCell>Балл</TableCell>
                   <TableCell>Подробнее</TableCell>
@@ -54,7 +104,7 @@ export const TaskBankPage = () => {
                     <TableCell>{task.question}</TableCell>
                     <TableCell>{task.correct_answer}</TableCell>
                     <TableCell>{task.subject}</TableCell>
-                    <TableCell>{task.category}</TableCell>
+                    <TableCell>{task.exam_number}</TableCell>
                     <TableCell>
                       <Chip
                         label={task.is_auto ? 'Да' : 'Нет'}

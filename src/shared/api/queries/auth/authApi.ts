@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { LoginDto, RegisterDto, AuthTokenResponse, User } from './model.ts';
 import { authKeys } from '@/shared/api/keys.ts';
-
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/auth/',
 });

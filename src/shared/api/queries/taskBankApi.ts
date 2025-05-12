@@ -21,11 +21,11 @@ type TaskResponse = {
   results: TaskItem[];
 };
 
-export const useTaskBank = () =>
+export const useTaskBank = (params?: { subject?: string; exam_number?: string; is_auto?: string }) =>
   useQuery({
-    queryKey: taskBankKeys.list(),
+    queryKey: taskBankKeys.list(params),
     queryFn: async () => {
-      const res = await axiosInstance.get<TaskResponse>('/api/v1/edit/task/');
+      const res = await axiosInstance.get<TaskResponse>('/api/v1/edit/task/', { params });
       return res.data.results;
     },
   });

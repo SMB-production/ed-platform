@@ -54,7 +54,7 @@ export const UsersPage = () => {
               <TableHead sx={{ backgroundColor: '#e9ecef' }}>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>ФИО</TableCell>
+                  <TableCell>Username</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Роль</TableCell>
                   <TableCell>Действия</TableCell>
@@ -64,11 +64,7 @@ export const UsersPage = () => {
                 {data.results.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
-                    <TableCell>
-                      {user.firstname || user.lastname
-                        ? `${user.firstname || ''} ${user.lastname || ''}`.trim()
-                        : 'Н/Д'}
-                    </TableCell>
+                    <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email || 'Н/Д'}</TableCell>
                     <TableCell>
                       {user.is_admin ? 'Администратор' : user.is_teacher ? 'Преподаватель' : 'Ученик'}

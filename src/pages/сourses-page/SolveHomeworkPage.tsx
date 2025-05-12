@@ -1,8 +1,8 @@
-import { Box, Button, Container, FormControlLabel, Paper, Radio, RadioGroup, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useHomeworkToSolve, useSubmitHomework } from '@/shared/api/queries/solveHomeworkApi/api.ts';
-import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 
 export const SolveHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +10,7 @@ export const SolveHomeworkPage = () => {
   const { data, isLoading, isError } = useHomeworkToSolve(homeworkId);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const submitMutation = useSubmitHomework(homeworkId);
+  const navigate = useNavigate();
 
   const handleSelect = (number: number, value: string) => {
     setAnswers((prev) => ({
@@ -20,13 +21,15 @@ export const SolveHomeworkPage = () => {
 
   const handleSubmit = () => {
     submitMutation.mutate(answers, {
-      onSuccess: () => alert('ДЗ отправлено!'),
+      onSuccess: () => {
+        navigate(`/homework/${homeworkId}/results`);
+      },
       onError: () => alert('Ошибка при отправке ДЗ'),
     });
   };
 
   return (
-    <SidebarLayout>
+    <PageLayout>
       <Container maxWidth="md">
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4" gutterBottom>
@@ -42,14 +45,12 @@ export const SolveHomeworkPage = () => {
                 №{task.number} {task.question}
               </Typography>
 
-              <RadioGroup
+              <TextField
+                label="Ваш ответ"
+                fullWidth
                 value={answers[task.number] || ''}
                 onChange={(e) => handleSelect(task.number, e.target.value)}
-              >
-                {[1, 2, 3, 4].map((opt) => (
-                  <FormControlLabel key={opt} value={String(opt)} control={<Radio />} label={String(opt)} />
-                ))}
-              </RadioGroup>
+              />
             </Box>
           ))}
 
@@ -60,6 +61,6 @@ export const SolveHomeworkPage = () => {
           </Box>
         </Paper>
       </Container>
-    </SidebarLayout>
+    </PageLayout>
   );
 };

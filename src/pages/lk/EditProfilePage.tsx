@@ -1,10 +1,13 @@
 import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useCurrentUser } from '@/shared/api/queries/auth/authApi.ts';
 import { useUpdateProfile } from '@/shared/api/queries/updateProfileApi/api.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { User } from '@/shared/api/queries/auth/model.ts';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
+import { CentralLoader } from '@/shared/components';
 
 type FormValues = {
   username: string;
@@ -14,7 +17,7 @@ type FormValues = {
 };
 
 export const EditProfilePage = () => {
-  const { data: user } = useCurrentUser();
+  const { data: user, isLoading } = useCurrentUser();
   const { register, handleSubmit, setValue, control } = useForm<FormValues>();
   const { mutate, isPending } = useUpdateProfile();
   const navigate = useNavigate();
@@ -47,8 +50,19 @@ export const EditProfilePage = () => {
     );
   };
 
+  const Layout = ({ user, children }: { user: User; children: ReactNode }) => {
+    console.log(user);
+    if (user.is_admin || user.is_teacher) return <SidebarLayout>{children}</SidebarLayout>;
+
+    return <PageLayout>{children}</PageLayout>;
+  };
+
+  if (isLoading) return <CentralLoader />;
+
+  if (!user) return <Typography>Пользователь не найден</Typography>;
+
   return (
-    <SidebarLayout>
+    <Layout user={user}>
       <Container maxWidth="sm">
         <Paper sx={{ p: 4 }}>
           <Typography variant="h5" gutterBottom>
@@ -81,6 +95,6 @@ export const EditProfilePage = () => {
           </Box>
         </Paper>
       </Container>
-    </SidebarLayout>
+    </Layout>
   );
 };

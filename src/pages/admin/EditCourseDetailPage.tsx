@@ -21,7 +21,7 @@ type FormValues = {
 export const EditCourseDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const courseId = Number(id);
-  const { data, isLoading, isError } = useEditCourseById(courseId);
+  const { data, isLoading, isError, refetch } = useEditCourseById(courseId);
   const { mutate: updateCourse } = usePutCourse(courseId);
   const { mutate: deleteCourse } = useDeleteCourse(courseId);
   const navigate = useNavigate();
@@ -128,6 +128,7 @@ export const EditCourseDetailPage = () => {
                 courseId={courseId}
                 onSuccess={() => {
                   setShowLessonForm(false);
+                  refetch();
                 }}
               />
             )}

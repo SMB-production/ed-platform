@@ -7,6 +7,7 @@ type FormValues = {
   question: string;
   correct_answer: string;
   ball: number;
+  exam_number: number;
   is_auto: boolean;
   files: File[];
 };
@@ -44,6 +45,14 @@ export const CreateTaskPage = () => {
               fullWidth
               margin="normal"
               {...register('ball', { valueAsNumber: true })}
+            />
+
+            <TextField
+              label="Номер задания"
+              type="number"
+              fullWidth
+              margin="normal"
+              {...register('exam_number', { valueAsNumber: true })}
             />
 
             <FormControlLabel

@@ -1,4 +1,3 @@
-import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
 import {
   Box,
   Button,
@@ -11,8 +10,9 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSubmittedHomework } from '@/shared/api/queries/submitHomeworkApi/api.ts';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 
 export const HomeworkResultPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +21,7 @@ export const HomeworkResultPage = () => {
   const navigate = useNavigate();
 
   return (
-    <SidebarLayout>
+    <PageLayout>
       <Container maxWidth="md">
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4" align="center" gutterBottom>
@@ -60,7 +60,7 @@ export const HomeworkResultPage = () => {
 
               <Box textAlign="center">
                 <Button variant="contained" sx={{ mr: 2 }} onClick={() => navigate('/my-courses')}>
-                  На курс
+                  К списку курсов
                 </Button>
                 <Button variant="outlined" onClick={() => navigate(`/homework/${homeworkId}/submitted`)}>
                   Посмотреть задания
@@ -70,6 +70,6 @@ export const HomeworkResultPage = () => {
           )}
         </Paper>
       </Container>
-    </SidebarLayout>
+    </PageLayout>
   );
 };

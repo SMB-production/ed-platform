@@ -6,7 +6,7 @@ export const useSubmittedHomework = (homeworkId: number) =>
   useQuery({
     queryKey: submittedHomeworkKeys.detail(homeworkId),
     queryFn: async () => {
-      const res = await axiosInstance.get<SubmittedHomework>(`/api/v1/learn/submit/${homeworkId}/`);
+      const res = await axiosInstance.get<SubmittedHomework>(`/api/v1/learn/homework/${homeworkId}/submit/`);
       return res.data;
     },
     enabled: !!homeworkId,

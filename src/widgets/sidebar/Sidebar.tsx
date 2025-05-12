@@ -23,8 +23,6 @@ const navItems: NavItem[] = [
   { label: 'Пользователи', path: '/users', roles: ['admin'] },
   { label: 'Банк заданий', path: '/task-bank', roles: ['teacher', 'admin'] },
   { label: 'Домашнее задание', path: '/homework/all', roles: ['teacher', 'admin'] },
-  { label: 'Создать дз', path: '/create-task', roles: ['teacher', 'admin'] },
-  { label: 'Создать урок', path: '/create-lesson', roles: ['teacher', 'admin'] },
 ];
 
 export const Sidebar = () => {

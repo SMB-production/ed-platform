@@ -1,5 +1,5 @@
 import { useRateUserHomework, useUserHomeworkById } from '@/shared/api/queries/homeworkApi/api';
-import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Chip, Container, Paper, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 import { useState } from 'react';
@@ -8,12 +8,23 @@ export const UserHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useUserHomeworkById(Number(id));
 
-  const total = data?.answers.length ?? 0;
-  const score = data?.answers.reduce((sum, a) => sum + a.result, 0) ?? 0;
-
   const [scores, setScores] = useState<Record<number, number>>({});
   const [comment, setComment] = useState(data?.comment ?? '');
   const rateMutation = useRateUserHomework(Number(id));
+
+  const total = data?.answers.length ?? 0;
+  const score = data?.answers.reduce((sum, a) => sum + (scores[a.number] ?? a.result), 0) ?? 0;
+
+  const handleSave = () => {
+    const payload = {
+      comment,
+      scores: { ...Object.fromEntries(Object.entries(scores).map(([num, value]) => [String(num), value])) },
+    };
+
+    rateMutation.mutate(payload, {
+      onSuccess: () => alert('Оценка сохранена'),
+    });
+  };
 
   return (
     <SidebarLayout>
@@ -52,6 +63,9 @@ export const UserHomeworkPage = () => {
                         №{ans.number} Задание:
                       </Typography>
                       <Typography gutterBottom>{ans.question}</Typography>
+
+                      {isManual && <Chip label="Ручная проверка" color="warning" size="small" sx={{ mb: 1 }} />}
+
                       <TextField
                         label="Ответ ученика"
                         fullWidth
@@ -59,6 +73,7 @@ export const UserHomeworkPage = () => {
                         InputProps={{ readOnly: true }}
                         sx={{ mb: 1 }}
                       />
+
                       <Typography color={isCorrect ? 'success.main' : 'error.main'}>
                         Правильный ответ: {ans.correct_answer}
                       </Typography>
@@ -91,20 +106,7 @@ export const UserHomeworkPage = () => {
               </Box>
 
               <Box mt={3} textAlign="right">
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={() =>
-                    rateMutation.mutate(
-                      { comment, scores },
-                      {
-                        onSuccess: () => {
-                          alert('Оценка сохранена');
-                        },
-                      },
-                    )
-                  }
-                >
+                <Button variant="contained" color="success" onClick={handleSave}>
                   Сохранить
                 </Button>
               </Box>

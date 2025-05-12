@@ -1,7 +1,7 @@
 import { useLessonById } from '@/shared/api/queries/lessons/api';
-import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
 import { Button, Container, Link, List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 
 export const LessonDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,7 +10,7 @@ export const LessonDetailPage = () => {
   const navigate = useNavigate();
 
   return (
-    <SidebarLayout>
+    <PageLayout>
       <Container maxWidth="md">
         {isLoading && <Typography>Загрузка...</Typography>}
         {isError && <Typography color="error">Ошибка при загрузке урока</Typography>}
@@ -36,7 +36,7 @@ export const LessonDetailPage = () => {
                 <Typography variant="body2" gutterBottom>
                   Вы можете просмотреть отправленные ответы или приступить к решению.
                 </Typography>
-                <Button variant="outlined" sx={{ mt: 1 }} onClick={() => navigate(`/homework/${data.homework}/solve`)}>
+                <Button variant="outlined" sx={{ mt: 1 }} onClick={() => navigate(`/homework/${data.homework}`)}>
                   Перейти к домашнему заданию
                 </Button>
               </Paper>
@@ -65,6 +65,6 @@ export const LessonDetailPage = () => {
           </Paper>
         )}
       </Container>
-    </SidebarLayout>
+    </PageLayout>
   );
 };
