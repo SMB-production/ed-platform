@@ -44,8 +44,6 @@ export const RegistrationPage = () => {
       date_birth: data.birthDate,
       is_teacher: false,
       is_admin: false,
-      name: data.name,
-      surname: data.surname,
     };
 
     registerUser(payload, {
@@ -64,7 +62,7 @@ export const RegistrationPage = () => {
     <>
       <Header />
       <Container maxWidth="sm" sx={{ mt: 6, mb: 4 }}>
-        <Typography variant="h4" align="center" fontWeight={600} color="primary" gutterBottom>
+        <Typography variant="h4" align="center" fontWeight={600} sx={{ color: '#005343' }} gutterBottom>
           Регистрация
         </Typography>
 
@@ -72,8 +70,6 @@ export const RegistrationPage = () => {
           <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
             <Stack spacing={2}>
               <TextField fullWidth label="ФИО" required {...register('fullName')} />
-              <TextField fullWidth label="Фамилия" required {...register('surname')} />
-              <TextField fullWidth label="Имя" required {...register('name')} />
               <TextField fullWidth label="E-mail" required type="email" {...register('email')} />
               <TextField
                 fullWidth

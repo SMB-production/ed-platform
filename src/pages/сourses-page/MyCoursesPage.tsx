@@ -9,7 +9,7 @@ export const MyCoursesPage = () => {
 
   return (
     <PageLayout>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt: 3 }}>
         <Typography variant="h4" gutterBottom>
           Ваше обучение
         </Typography>
@@ -32,16 +32,45 @@ export const MyCoursesPage = () => {
                   display: 'flex',
                   alignItems: 'flex-start',
                   justifyContent: 'center',
+                  backgroundColor: 'rgba(0,83,67,0.1)',
                   '&:hover': {
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: 'rgba(0,83,67,0.15)',
                   },
                 }}
               >
-                <Typography variant="h6">{course.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="h4"
+                  sx={{
+                    width: '100%',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {course.title}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="text.secondary"
+                  sx={{
+                    width: '100%',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   {course.subject}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  sx={{
+                    width: '100%',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   {course.month}
                 </Typography>
               </ButtonBase>

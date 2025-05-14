@@ -33,14 +33,6 @@ import { HomeworkIntroPage } from '@/pages/сourses-page/HomeworkIntroPage.tsx';
 
 const routes: RouteObject[] = [
   {
-    path: '/',
-    element: <>1</>,
-  },
-  {
-    path: '/about',
-    element: <>2</>,
-  },
-  {
     path: '/registration',
     element: <RegistrationPage />,
   },

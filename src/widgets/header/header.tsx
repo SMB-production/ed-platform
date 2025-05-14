@@ -8,6 +8,7 @@ const StyledAppBar = styled(AppBar)({
   backgroundColor: '#005343',
   padding: '10px 0',
   boxShadow: 'none',
+  width: '100%',
 });
 
 const AccountButton = styled(Button)({
@@ -26,7 +27,7 @@ export const Header = () => {
 
   return (
     <StyledAppBar position="static">
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <CompanyIcon onClick={() => navigate('/courses')} />
 

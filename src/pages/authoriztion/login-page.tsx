@@ -52,7 +52,7 @@ export const LoginPage = () => {
     <>
       <Header />
       <Container maxWidth="sm" sx={{ mt: 6, mb: 4 }}>
-        <Typography variant="h4" align="center" fontWeight={600} color="primary" gutterBottom>
+        <Typography variant="h4" align="center" fontWeight={600} sx={{ color: '#005343' }} gutterBottom>
           Вход в личный кабинет
         </Typography>
 

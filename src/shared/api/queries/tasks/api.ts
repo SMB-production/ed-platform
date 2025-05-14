@@ -10,6 +10,7 @@ const createTask = async (data: CreateTaskDto) => {
   formData.append('ball', String(data.ball));
   formData.append('is_auto', String(data.is_auto));
   formData.append('exam_number', String(data.exam_number));
+  formData.append('subject', String(data.subject));
 
   data.files?.forEach((file) => {
     formData.append('files', file);

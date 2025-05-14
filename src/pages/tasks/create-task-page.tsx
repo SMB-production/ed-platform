@@ -6,6 +6,7 @@ import { useCreateTask } from '@/shared/api/queries/tasks/api.ts';
 type FormValues = {
   question: string;
   correct_answer: string;
+  subject: string;
   ball: number;
   exam_number: number;
   is_auto: boolean;
@@ -38,6 +39,7 @@ export const CreateTaskPage = () => {
             <TextField label="Условие задания" multiline rows={4} fullWidth margin="normal" {...register('question')} />
 
             <TextField label="Ответ" fullWidth margin="normal" {...register('correct_answer')} />
+            <TextField label="Предмет" fullWidth margin="normal" {...register('subject')} />
 
             <TextField
               label="Балл"

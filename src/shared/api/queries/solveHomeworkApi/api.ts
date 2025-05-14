@@ -13,12 +13,24 @@ export const useHomeworkToSolve = (id: number) =>
     enabled: !!id,
   });
 
+type HomeworkSubmissionInput = {
+  textAnswers: Record<string, string>;
+  fileAnswers: Record<number, File[]>;
+};
+
 export const useSubmitHomework = (id: number) =>
   useMutation({
-    mutationFn: async (answers: Record<string, string>) => {
+    mutationFn: async ({ textAnswers, fileAnswers }: HomeworkSubmissionInput) => {
       const formData = new FormData();
-      Object.entries(answers).forEach(([number, value]) => {
+
+      Object.entries(textAnswers).forEach(([number, value]) => {
         formData.append(number, value);
+      });
+
+      Object.entries(fileAnswers).forEach(([number, files]) => {
+        files.forEach((file) => {
+          formData.append(`${number}`, file);
+        });
       });
 
       const res = await axiosInstance.post(`/api/v1/learn/homework/${id}/submit/`, formData);

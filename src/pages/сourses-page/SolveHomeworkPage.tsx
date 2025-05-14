@@ -9,6 +9,7 @@ export const SolveHomeworkPage = () => {
   const homeworkId = Number(id);
   const { data, isLoading, isError } = useHomeworkToSolve(homeworkId);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [fileAnswers, setFileAnswers] = useState<Record<number, File[]>>({});
   const submitMutation = useSubmitHomework(homeworkId);
   const navigate = useNavigate();
 
@@ -20,12 +21,18 @@ export const SolveHomeworkPage = () => {
   };
 
   const handleSubmit = () => {
-    submitMutation.mutate(answers, {
-      onSuccess: () => {
-        navigate(`/homework/${homeworkId}/results`);
+    submitMutation.mutate(
+      {
+        textAnswers: answers,
+        fileAnswers: fileAnswers,
       },
-      onError: () => alert('Ошибка при отправке ДЗ'),
-    });
+      {
+        onSuccess: () => {
+          navigate(`/homework/${homeworkId}/results`);
+        },
+        onError: () => alert('Ошибка при отправке ДЗ'),
+      },
+    );
   };
 
   return (
@@ -39,20 +46,35 @@ export const SolveHomeworkPage = () => {
           {isLoading && <Typography>Загрузка...</Typography>}
           {isError && <Typography color="error">Ошибка загрузки</Typography>}
 
-          {data?.tasks.map((task) => (
-            <Box key={task.number} sx={{ mb: 3, p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                №{task.number} {task.question}
-              </Typography>
+          {data?.tasks.map((task) => {
+            const isManual = !task.is_auto;
 
-              <TextField
-                label="Ваш ответ"
-                fullWidth
-                value={answers[task.number] || ''}
-                onChange={(e) => handleSelect(task.number, e.target.value)}
-              />
-            </Box>
-          ))}
+            return (
+              <Box key={task.number} sx={{ mb: 3, p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  №{task.number} {task.question}
+                </Typography>
+
+                {isManual ? (
+                  <input
+                    type="file"
+                    multiple
+                    onChange={(e) => {
+                      const files = e.target.files ? Array.from(e.target.files) : [];
+                      setFileAnswers((prev) => ({ ...prev, [task.number]: files }));
+                    }}
+                  />
+                ) : (
+                  <TextField
+                    label="Ваш ответ"
+                    fullWidth
+                    value={answers[task.number] || ''}
+                    onChange={(e) => handleSelect(task.number, e.target.value)}
+                  />
+                )}
+              </Box>
+            );
+          })}
 
           <Box mt={3} textAlign="right">
             <Button variant="contained" color="success" onClick={handleSubmit}>

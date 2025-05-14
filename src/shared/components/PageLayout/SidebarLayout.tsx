@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
-import { Box, Container } from '@mui/material';
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Header } from '@/widgets/header';
+import { HeaderMobile } from '@/widgets/header/HeaderMobile';
 import { Sidebar } from '@/widgets/sidebar/Sidebar';
+import { ReactNode } from 'react';
 
 interface SidebarLayoutProps {
   children: ReactNode;
@@ -19,12 +20,15 @@ const ContentArea = styled(Box)({
 });
 
 export const SidebarLayout = ({ children }: SidebarLayoutProps) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg')); // ~1200px+
+
   return (
     <>
-      <Header />
+      {isDesktop ? <Header /> : <HeaderMobile />}
       <Container maxWidth="xl">
         <ContentLayout>
-          <Sidebar />
+          {isDesktop && <Sidebar />}
           <ContentArea>{children}</ContentArea>
         </ContentLayout>
       </Container>

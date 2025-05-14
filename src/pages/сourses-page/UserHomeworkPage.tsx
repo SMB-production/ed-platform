@@ -46,7 +46,7 @@ export const UserHomeworkPage = () => {
               <Box mt={3}>
                 {data.answers.map((ans) => {
                   const isCorrect = ans.answers_text === ans.correct_answer;
-                  const isManual = !ans.is_auto;
+                  const isManual = !ans.is_auto || true;
 
                   return (
                     <Box

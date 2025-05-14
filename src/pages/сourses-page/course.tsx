@@ -12,7 +12,7 @@ export const CourseDetailPage = () => {
 
   return (
     <PageLayout>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt: 3 }}>
         {isLoading && <Typography>Загрузка...</Typography>}
         {isError && <Typography color="error">Ошибка при загрузке курса</Typography>}
 
@@ -42,13 +42,23 @@ export const CourseDetailPage = () => {
                       alignItems: 'center',
                       display: 'flex',
                       p: 2,
+                      backgroundColor: 'rgba(0,83,67,0.1)',
                       '&:hover': {
-                        backgroundColor: '#f5f5f5',
+                        backgroundColor: 'rgba(0,83,67,0.15)',
                       },
                     }}
                     onClick={() => navigate(`/lessons/${lesson.id}`)}
                   >
-                    <Typography variant="h6" align="center">
+                    <Typography
+                      variant="h4"
+                      align="center"
+                      sx={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
                       {lesson.title}
                     </Typography>
                   </ButtonBase>
