@@ -40,6 +40,8 @@ export const EditProfilePage = () => {
         username: form.username,
         email: form.email,
         date_birth: form.date_birth,
+        last_name: form.last_name,
+        first_name: form.first_name,
         photo: form.photo?.[0] ?? undefined,
       },
       {

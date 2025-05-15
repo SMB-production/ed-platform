@@ -64,7 +64,7 @@ export const SubmittedHomeworkPage = () => {
                           <Box mt={1}>
                             <Typography variant="body2">Файлы:</Typography>
                             {a.files.map((f, i) => (
-                              <Link key={i} href={getFileLink(f.file)} target="_blank" rel="noopener" display="block">
+                              <Link key={i} href={f.file} target="_blank" rel="noopener" display="block">
                                 {f.file.split('/').pop()}
                               </Link>
                             ))}

@@ -25,7 +25,9 @@ export const CreateHomeworkForm = ({ lessonId, lessonTitle, onSuccess }: CreateH
   const { mutate: createHomework, isPending } = useCreateHomework();
 
   const onSubmit = (data: any) => {
-    const taskIds = data.tasks.map((task: { id: string }) => Number(task.id)).filter((n) => !isNaN(n)); // отфильтровать пустые/некорректные
+    console.log(data.tasks);
+    const taskIds = data.tasks.map((task: { question: string }) => Number(task.question));
+    console.log(taskIds);
 
     const payload = {
       lesson: lessonId,

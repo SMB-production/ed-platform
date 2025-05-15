@@ -53,7 +53,7 @@ export const LessonDetailPage = () => {
                     <ListItem key={idx}>
                       <ListItemText
                         primary={
-                          <Link href={getFileLink(f.file)} target="_blank" rel="noopener">
+                          <Link href={f.file} target="_blank" rel="noopener">
                             {f.file.split('/').pop()}
                           </Link>
                         }
