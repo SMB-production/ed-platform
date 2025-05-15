@@ -1,0 +1,121 @@
+/* REGULAR */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* MEDIUM */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* SEMIBOLD */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* BOLD */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-BoldItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* EXTRABOLD */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-ExtraBoldItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+/* BLACK */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-BlackItalic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* LIGHT */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+/* THIN */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-ThinItalic.otf') format('opentype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+/* ITALIC REGULAR */
+@font-face {
+    font-family: 'Inter';
+    src: url('./Inter-Italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* VARIABLE FONT (если решишь использовать) */
+@font-face {
+    font-family: 'InterVar';
+    src: url('./Inter-V.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+}
