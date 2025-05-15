@@ -2,6 +2,7 @@ import { Box, Container, Link, Paper, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useSubmittedHomeworkById } from '@/shared/api/queries/submitHomeworkApi/api.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const SubmittedHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -63,7 +64,7 @@ export const SubmittedHomeworkPage = () => {
                           <Box mt={1}>
                             <Typography variant="body2">Файлы:</Typography>
                             {a.files.map((f, i) => (
-                              <Link key={i} href={f.file} target="_blank" rel="noopener" display="block">
+                              <Link key={i} href={getFileLink(f.file)} target="_blank" rel="noopener" display="block">
                                 {f.file.split('/').pop()}
                               </Link>
                             ))}

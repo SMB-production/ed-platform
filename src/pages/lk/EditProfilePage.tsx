@@ -13,6 +13,8 @@ type FormValues = {
   username: string;
   email: string;
   date_birth: string;
+  first_name: string;
+  last_name: string;
   photo: FileList;
 };
 
@@ -25,6 +27,8 @@ export const EditProfilePage = () => {
   useEffect(() => {
     if (user) {
       setValue('username', user.username);
+      setValue('last_name', user.last_name);
+      setValue('first_name', user.first_name);
       setValue('email', user.email);
       setValue('date_birth', user.date_birth ?? '');
     }
@@ -70,7 +74,9 @@ export const EditProfilePage = () => {
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <TextField label="ФИО" fullWidth margin="normal" {...register('username')} />
+            <TextField label="Username" fullWidth margin="normal" {...register('username')} />
+            <TextField label="Фамилия" fullWidth margin="normal" {...register('last_name')} />
+            <TextField label="Имя" fullWidth margin="normal" {...register('first_name')} />
             <TextField label="Email" fullWidth margin="normal" {...register('email')} />
             <TextField
               label="Дата рождения"

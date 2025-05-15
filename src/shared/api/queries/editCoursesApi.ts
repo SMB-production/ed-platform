@@ -30,11 +30,13 @@ type UpdateCourseDto = {
   lessons: number[];
 };
 
-export const useAllEditableCourses = () =>
+export const useAllEditableCourses = (params?: Record<string, any>) =>
   useQuery({
-    queryKey: editCoursesKeys.list(),
+    queryKey: editCoursesKeys.list(params),
     queryFn: async () => {
-      const res = await axiosInstance.get('/api/v1/edit/course/');
+      const res = await axiosInstance.get('/api/v1/edit/course/', {
+        params,
+      });
       return res.data as CoursesResponse;
     },
   });

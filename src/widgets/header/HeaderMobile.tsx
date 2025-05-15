@@ -6,6 +6,7 @@ import { Sidebar } from '@/widgets/sidebar/Sidebar';
 import { useCurrentUser } from '@/shared/api/queries/auth/authApi';
 import { CompanyIcon } from '@/shared/icons';
 import { useNavigate } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#005343',
@@ -43,8 +44,25 @@ export const HeaderMobile = () => {
         </Container>
       </StyledAppBar>
 
-      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <Box width={250} p={2}>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: '100vw',
+            height: '100vh',
+            maxWidth: '100vw',
+          },
+        }}
+      >
+        <Box sx={{ width: '100%' }} p={2}>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
+            <IconButton onClick={() => setOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
           <Sidebar />
         </Box>
       </Drawer>

@@ -7,15 +7,25 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAllEditableCourses } from '@/shared/api/queries/editCoursesApi.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { useState } from 'react';
 
 export const AdminCoursesPage = () => {
-  const { data, isLoading, isError } = useAllEditableCourses();
+  const [page, setPage] = useState(0);
+  const pageSize = 20;
+
+  const queryParams = {
+    page: page + 1,
+    pageSize,
+  };
+
+  const { data, isLoading, isError } = useAllEditableCourses(queryParams);
   const navigate = useNavigate();
 
   return (
@@ -59,6 +69,14 @@ export const AdminCoursesPage = () => {
                 ))}
               </TableBody>
             </Table>
+            <TablePagination
+              component="div"
+              count={data.count}
+              page={page}
+              onPageChange={(_, newPage) => setPage(newPage)}
+              rowsPerPage={pageSize}
+              rowsPerPageOptions={[pageSize]} // фиксированный размер
+            />
           </Paper>
         )}
       </Container>

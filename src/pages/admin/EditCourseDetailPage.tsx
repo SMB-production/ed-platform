@@ -8,6 +8,8 @@ import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx'
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { InlineLessonCreateForm } from '@/widgets/InlineLessonCreateForm.tsx';
+import { SubjectSelect } from '@/shared/components/subject-select.tsx';
+import { MonthSelect } from '@/shared/components/months-select.tsx';
 
 type FormValues = {
   title: string;
@@ -27,7 +29,7 @@ export const EditCourseDetailPage = () => {
   const navigate = useNavigate();
   const [showLessonForm, setShowLessonForm] = useState(false);
 
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, control } = useForm<FormValues>();
 
   if (isLoading) return <Typography>Загрузка...</Typography>;
   if (isError || !data) return <Typography>Ошибка загрузки курса</Typography>;
@@ -67,14 +69,14 @@ export const EditCourseDetailPage = () => {
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 3 }}>
             <Stack spacing={2}>
               <TextField label="Название курса" defaultValue={data.title} fullWidth {...register('title')} />
-              <TextField label="Предмет" defaultValue={data.subject} fullWidth {...register('subject')} />
-              <TextField label="Месяц" defaultValue={data.month} fullWidth {...register('month')} />
+              <SubjectSelect control={control} name={'subject'} defaultValue={data.subject} />
+              <MonthSelect control={control} name={'month'} defaultValue={data.month} />
               <TextField
                 label="Описание"
                 defaultValue={data.content}
                 fullWidth
                 multiline
-                rows={3}
+                rows={8}
                 {...register('content')}
               />
               <TextField

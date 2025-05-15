@@ -3,7 +3,6 @@ import { SnackbarProvider } from 'notistack';
 import { theme } from '@/shared/mui';
 import { AppRouter } from '@/app/routing.tsx';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Watermark } from '@/shared/components';
 import { AuthProvider } from '@/app/providers/AuthProvider.tsx';
 import '@/shared/mui/fonts/fonts.css';
 
@@ -14,7 +13,6 @@ export const App = () => {
         <CssBaseline />
         <SnackbarProvider maxSnack={5}>
           <AuthProvider>
-            <Watermark />
             <AppRouter />
           </AuthProvider>
         </SnackbarProvider>

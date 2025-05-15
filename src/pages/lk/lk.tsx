@@ -33,7 +33,6 @@ export const ProfilePage = () => {
   };
 
   const Layout = ({ user, children }: { user: User; children: ReactNode }) => {
-    console.log(user);
     if (user.is_admin || user.is_teacher) return <SidebarLayout>{children}</SidebarLayout>;
 
     return <PageLayout>{children}</PageLayout>;
@@ -63,8 +62,53 @@ export const ProfilePage = () => {
             <Grid item xs={12} md={6}>
               <Stack spacing={2}>
                 <Box>
-                  <Typography color="text.secondary">ФИО</Typography>
+                  <Typography color="text.secondary" gutterBottom>
+                    Аватар
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '2px solid #ddd',
+                    }}
+                  >
+                    {user.photo ? (
+                      <img
+                        src={user.photo}
+                        alt="Аватар"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          backgroundColor: '#f0f0f0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 14,
+                          color: '#999',
+                        }}
+                      >
+                        Нет фото
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Username</Typography>
                   <Typography>{user.username || 'Н/Д'}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Фамилия</Typography>
+                  <Typography>{user.last_name || 'Н/Д'}</Typography>
+                </Box>
+                <Box>
+                  <Typography color="text.secondary">Имя</Typography>
+                  <Typography>{user.first_name || 'Н/Д'}</Typography>
                 </Box>
                 <Box>
                   <Typography color="text.secondary">Email</Typography>

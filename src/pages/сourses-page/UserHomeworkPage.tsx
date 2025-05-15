@@ -2,7 +2,8 @@ import { useRateUserHomework, useUserHomeworkById } from '@/shared/api/queries/h
 import { Box, Button, Chip, Container, Paper, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const UserHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +11,12 @@ export const UserHomeworkPage = () => {
 
   const [scores, setScores] = useState<Record<number, number>>({});
   const [comment, setComment] = useState(data?.comment ?? '');
+
+  useEffect(() => {
+    if (data?.comment !== comment) {
+      setComment(comment);
+    }
+  }, [data]);
   const rateMutation = useRateUserHomework(Number(id));
 
   const total = data?.answers.length ?? 0;
@@ -46,7 +53,7 @@ export const UserHomeworkPage = () => {
               <Box mt={3}>
                 {data.answers.map((ans) => {
                   const isCorrect = ans.answers_text === ans.correct_answer;
-                  const isManual = !ans.is_auto || true;
+                  const isManual = !ans.is_auto;
 
                   return (
                     <Box
@@ -66,13 +73,28 @@ export const UserHomeworkPage = () => {
 
                       {isManual && <Chip label="Ручная проверка" color="warning" size="small" sx={{ mb: 1 }} />}
 
-                      <TextField
-                        label="Ответ ученика"
-                        fullWidth
-                        value={ans.answers_text}
-                        InputProps={{ readOnly: true }}
-                        sx={{ mb: 1 }}
-                      />
+                      {isManual && ans.files.length > 0 ? (
+                        <Box sx={{ mb: 1 }}>
+                          <Typography variant="body2" color="textSecondary" gutterBottom>
+                            Прикреплённые файлы:
+                          </Typography>
+                          {ans.files.map((file) => (
+                            <Box key={file.id}>
+                              <a href={getFileLink(file.file)} target="_blank" rel="noopener noreferrer">
+                                {file.file.split('/').pop()}
+                              </a>
+                            </Box>
+                          ))}
+                        </Box>
+                      ) : (
+                        <TextField
+                          label="Ответ ученика"
+                          fullWidth
+                          value={ans.answers_text}
+                          InputProps={{ readOnly: true }}
+                          sx={{ mb: 1 }}
+                        />
+                      )}
 
                       <Typography color={isCorrect ? 'success.main' : 'error.main'}>
                         Правильный ответ: {ans.correct_answer}
@@ -102,7 +124,7 @@ export const UserHomeworkPage = () => {
                 <Typography variant="h6" gutterBottom>
                   Комментарий
                 </Typography>
-                <TextField fullWidth multiline rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
+                <TextField fullWidth multiline rows={8} value={comment} onChange={(e) => setComment(e.target.value)} />
               </Box>
 
               <Box mt={3} textAlign="right">

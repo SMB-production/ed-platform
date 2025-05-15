@@ -25,10 +25,16 @@ export const components: Components<Omit<Theme, 'components'>> = {
   MuiPaper: {
     defaultProps: {
       elevation: 0,
-      sx: {
-        display: 'flex',
-        gap: '12px',
-      },
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        [theme.breakpoints.down('sm')]: {
+          padding: '8px',
+        },
+        [theme.breakpoints.down(800)]: {
+          padding: '8px',
+        },
+      }),
     },
   },
   MuiLink: {
@@ -44,6 +50,16 @@ export const components: Components<Omit<Theme, 'components'>> = {
   MuiList: {
     defaultProps: {
       disablePadding: true,
+    },
+  },
+  MuiTableCell: {
+    styleOverrides: {
+      root: {
+        maxWidth: 200,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+      },
     },
   },
   MuiListItem: {

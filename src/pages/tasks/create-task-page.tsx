@@ -2,6 +2,7 @@ import { Box, Button, Container, Paper, TextField, Typography, Checkbox, FormCon
 import { useForm, Controller } from 'react-hook-form';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 import { useCreateTask } from '@/shared/api/queries/tasks/api.ts';
+import { SubjectSelect } from '@/shared/components/subject-select.tsx';
 
 type FormValues = {
   question: string;
@@ -36,10 +37,10 @@ export const CreateTaskPage = () => {
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <TextField label="Условие задания" multiline rows={4} fullWidth margin="normal" {...register('question')} />
+            <TextField label="Условие задания" multiline rows={8} fullWidth margin="normal" {...register('question')} />
 
             <TextField label="Ответ" fullWidth margin="normal" {...register('correct_answer')} />
-            <TextField label="Предмет" fullWidth margin="normal" {...register('subject')} />
+            <SubjectSelect control={control} name={'subject'} />
 
             <TextField
               label="Балл"

@@ -2,6 +2,7 @@ import { useLessonById } from '@/shared/api/queries/lessons/api';
 import { Button, Container, Link, List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const LessonDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,7 +53,7 @@ export const LessonDetailPage = () => {
                     <ListItem key={idx}>
                       <ListItemText
                         primary={
-                          <Link href={f.file} target="_blank" rel="noopener">
+                          <Link href={getFileLink(f.file)} target="_blank" rel="noopener">
                             {f.file.split('/').pop()}
                           </Link>
                         }

@@ -7,6 +7,7 @@ import { usePatchLesson } from '@/shared/api/queries/editLessonApi.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 import { CreateHomeworkForm } from '@/widgets/CreateHomeworkForm.tsx';
 import { useDeleteHomework } from '@/shared/api/queries/deleteHomeworkApi.ts';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const LessonManagePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,6 @@ export const LessonManagePage = () => {
   const { mutate: patchLesson, isPending: isSaving } = usePatchLesson(lessonId);
   const navigate = useNavigate();
 
-  const [replaceHomework, setReplaceHomework] = useState(false);
   const homeworkId = lesson?.homework;
   const { mutate: deleteHomework, isPending: isDeleting } = useDeleteHomework(homeworkId ?? 0);
 
@@ -53,7 +53,7 @@ export const LessonManagePage = () => {
               <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
                   <TextField label="Название" fullWidth {...register('title')} />
-                  <TextField label="Описание" fullWidth multiline rows={2} {...register('content')} />
+                  <TextField label="Описание" fullWidth multiline rows={8} {...register('content')} />
                   <TextField label="Ссылка на запись" fullWidth {...register('video_link')} />
                   <TextField
                     label="Дата урока"
@@ -76,7 +76,7 @@ export const LessonManagePage = () => {
                   <Typography fontWeight={600}>Файлы:</Typography>
                   <Stack>
                     {lesson.files.map((f, idx) => (
-                      <Link key={idx} href={f.file} target="_blank" rel="noopener">
+                      <Link key={idx} href={getFileLink(f.file)} target="_blank" rel="noopener">
                         {f.file.split('/').pop()}
                       </Link>
                     ))}

@@ -3,8 +3,10 @@ import { axiosInstance } from '../base';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UsersResponse } from '@/shared/api/queries/users/model.ts';
 
-export const fetchAllUsers = async (): Promise<UsersResponse> => {
-  const res = await axiosInstance.get('/api/v1/edit/user/');
+export const fetchAllUsers = async (params?: Record<string, any>): Promise<UsersResponse> => {
+  const res = await axiosInstance.get('/api/v1/edit/user/', {
+    params,
+  });
   return res.data;
 };
 
@@ -20,10 +22,10 @@ export const promoteToAdmin = async (id: number) => {
   return axiosInstance.post('/api/v1/edit/user/get_admin/', formData);
 };
 
-export const useAllUsers = () =>
+export const useAllUsers = (params?: Record<string, any>) =>
   useQuery({
-    queryKey: usersKeys.list(),
-    queryFn: fetchAllUsers,
+    queryKey: usersKeys.list(params),
+    queryFn: () => fetchAllUsers(params),
   });
 
 export const useMakeTeacher = () =>

@@ -15,6 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { useDeleteTask, usePatchTask, useTaskById } from '@/shared/api/queries/taskBankApi';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const TaskDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -99,7 +100,7 @@ export const TaskDetailPage = () => {
                     Файлы:
                   </Typography>
                   {data.files.map((f, i) => (
-                    <Link key={i} href={f.file} target="_blank" rel="noopener" display="block">
+                    <Link key={i} href={getFileLink(f.file)} target="_blank" rel="noopener" display="block">
                       {f.file.split('/').pop()}
                     </Link>
                   ))}

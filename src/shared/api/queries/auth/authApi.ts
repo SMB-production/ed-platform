@@ -42,7 +42,6 @@ const register = async (data: RegisterDto): Promise<User> => {
 
 const getMe = async (): Promise<User> => {
   const res = await axiosInstance.get('/users/me/');
-  console.log(res);
   return res.data;
 };
 

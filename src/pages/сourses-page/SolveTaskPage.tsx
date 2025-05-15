@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import { useHomeworkById } from '@/shared/api/queries/homeworkApi/api.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 const TaskNumberBox = styled(Box)<{ correct?: boolean; incorrect?: boolean }>(({ correct, incorrect }) => ({
   width: 48,
@@ -76,7 +77,7 @@ export const SolveTaskPage = () => {
                       <ListItem key={idx}>
                         <ListItemText
                           primary={
-                            <Link href={f.file} target="_blank" rel="noopener">
+                            <Link href={getFileLink(f.file)} target="_blank" rel="noopener">
                               {f.file.split('/').pop()}
                             </Link>
                           }

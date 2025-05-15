@@ -19,11 +19,11 @@ type HomeworkSubmissionResponse = {
   results: HomeworkSubmission[];
 };
 
-export const useAllSubmissions = (params?: { course?: string; subject?: string; teacher?: string }) =>
+export const useAllSubmissions = (params?: Record<string, any>) =>
   useQuery({
     queryKey: allSubmissionsKeys.list(params),
     queryFn: async () => {
       const res = await axiosInstance.get<HomeworkSubmissionResponse>('/api/v1/edit/user-homework/', { params });
-      return res.data.results;
+      return res.data;
     },
   });

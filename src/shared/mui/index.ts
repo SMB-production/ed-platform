@@ -10,13 +10,3 @@ export const theme = createTheme({
   shape,
   components,
 });
-
-export const styledTheme = {
-  ...theme,
-  color: {
-    'Neutral/Neutral 50': theme.palette.grey[500],
-    'Primary/Primary 70': theme.palette.primary.main,
-  },
-};
-
-export type AppTheme = typeof styledTheme;

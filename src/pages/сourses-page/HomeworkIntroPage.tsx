@@ -2,6 +2,7 @@ import { Box, Button, Container, Paper, Stack, Typography, Chip, Link } from '@m
 import { useParams, useNavigate } from 'react-router-dom';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout';
 import { useHomeworkToSolve } from '@/shared/api/queries/solveHomeworkApi/api.ts';
+import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const HomeworkIntroPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +42,7 @@ export const HomeworkIntroPage = () => {
                         <Box mt={1}>
                           <Typography variant="body2">Материалы:</Typography>
                           {task.files.map((f, i) => (
-                            <Link key={i} href={f.file} target="_blank" rel="noopener" display="block">
+                            <Link key={i} href={getFileLink(f.file)} target="_blank" rel="noopener" display="block">
                               {f.file.split('/').pop()}
                             </Link>
                           ))}

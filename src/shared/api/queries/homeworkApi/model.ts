@@ -12,14 +12,18 @@ export type HomeworkDetail = {
   tasks: HomeworkTask[];
 };
 
-export type UserHomeworkAnswer = {
+export interface UserHomeworkAnswer {
   number: number;
-  question: string;
   answers_text: string;
+  files: {
+    id: number;
+    file: string;
+  }[];
+  question: string;
   correct_answer: string;
-  result: number;
   is_auto: boolean;
-};
+  result: number;
+}
 
 export type UserInfo = {
   id: number;

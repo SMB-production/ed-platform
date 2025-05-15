@@ -1,95 +1,69 @@
-import { Box, Button, Paper, Stack, TextField, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useTaskBank } from '@/shared/api/queries/taskBankApi.ts';
+import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { Add, Delete } from '@mui/icons-material';
 import { useCreateHomework } from '@/shared/api/queries/createHomeworkApi.ts';
 
-type FormValues = {
-  title: string;
-  selectedTaskIds: number[];
-};
-
-export const CreateHomeworkForm = ({
-  lessonId,
-  lessonTitle,
-  onSuccess,
-}: {
+interface CreateHomeworkFormProps {
   lessonId: number;
   lessonTitle: string;
-  onSuccess?: (newHomeworkId: number) => void;
-}) => {
-  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
+  onSuccess: () => void;
+}
+
+export const CreateHomeworkForm = ({ lessonId, lessonTitle, onSuccess }: CreateHomeworkFormProps) => {
+  const { control, handleSubmit } = useForm({
     defaultValues: {
-      selectedTaskIds: [],
-      title: `Домашняя работа для ${lessonTitle}`,
+      title: `Домашка по уроку: ${lessonTitle}`,
+      tasks: [{ question: '' }],
     },
   });
 
-  const { data: taskList, isLoading } = useTaskBank();
-  const { mutate: createHomework } = useCreateHomework();
-  const navigate = useNavigate();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'tasks',
+  });
 
-  const selectedTasks = watch('selectedTaskIds');
+  const { mutate: createHomework, isPending } = useCreateHomework();
 
-  const onToggleTask = (id: number) => {
-    const updated = selectedTasks.includes(id) ? selectedTasks.filter((tid) => tid !== id) : [...selectedTasks, id];
-    setValue('selectedTaskIds', updated);
-  };
+  const onSubmit = (data: any) => {
+    const taskIds = data.tasks.map((task: { id: string }) => Number(task.id)).filter((n) => !isNaN(n)); // отфильтровать пустые/некорректные
 
-  const onSubmit = (data: FormValues) => {
-    createHomework(
-      {
-        title: data.title,
-        lesson: lessonId,
-        tasks: data.selectedTaskIds,
-      },
-      {
-        onSuccess: (res) => {
-          alert('Домашняя работа создана');
-          if (onSuccess) onSuccess(res.id);
-          navigate(`/lesson/manage/${lessonId}`);
-        },
-        onError: () => {
-          alert('Ошибка при создании');
-        },
-      },
-    );
+    const payload = {
+      lesson: lessonId,
+      title: data.title,
+      tasks: taskIds,
+    };
+
+    createHomework(payload, {
+      onSuccess,
+      onError: () => alert('Ошибка при создании ДЗ'),
+    });
   };
 
   return (
-    <Paper sx={{ p: 4 }}>
-      <Typography variant="h6" gutterBottom>
-        Создать домашнюю работу
-      </Typography>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={2}>
+        <TextField label="Название ДЗ" fullWidth {...control.register('title')} />
 
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack spacing={2}>
-          <TextField fullWidth label="Название" required {...register('title')} />
-
-          <Box>
-            <Typography variant="subtitle2" gutterBottom>
-              Задания:
-            </Typography>
-            {isLoading ? (
-              <Typography>Загрузка задач...</Typography>
-            ) : (
-              taskList?.map((task) => (
-                <FormControlLabel
-                  key={task.id}
-                  control={
-                    <Checkbox checked={selectedTasks.includes(task.id)} onChange={() => onToggleTask(task.id)} />
-                  }
-                  label={`#${task.id} — ${task.question}`}
-                />
-              ))
-            )}
+        <Typography fontWeight="bold">Задания</Typography>
+        {fields.map((field, index) => (
+          <Box key={field.id} display="flex" alignItems="center" gap={1}>
+            <TextField fullWidth label={`ID задания № ${index + 1}`} {...control.register(`tasks.${index}.question`)} />
+            <IconButton onClick={() => remove(index)} color="error">
+              <Delete />
+            </IconButton>
           </Box>
+        ))}
 
-          <Button variant="contained" color="success" type="submit">
-            Создать
+        <Button startIcon={<Add />} onClick={() => append({ question: '' })} variant="outlined">
+          Добавить задание
+        </Button>
+
+        <Box textAlign="right">
+          <Button type="submit" variant="contained" disabled={isPending}>
+            {isPending ? 'Создание...' : 'Создать ДЗ'}
           </Button>
-        </Stack>
-      </Box>
-    </Paper>
+        </Box>
+      </Stack>
+    </Box>
   );
 };

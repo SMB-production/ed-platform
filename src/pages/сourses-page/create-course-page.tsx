@@ -3,6 +3,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useCreateCourse } from '@/shared/api/queries/create-course/api.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
+import { SubjectSelect } from '@/shared/components/subject-select.tsx';
+import { MonthSelect } from '@/shared/components/months-select.tsx';
 
 type FormValues = {
   title: string;
@@ -55,9 +57,9 @@ export const CreateCoursePage = () => {
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
             <TextField fullWidth label="Название" margin="normal" {...register('title')} required />
-            <TextField fullWidth label="Предмет" margin="normal" {...register('subject')} required />
-            <TextField fullWidth label="Месяц" margin="normal" {...register('month')} />
-            <TextField fullWidth label="Описание" margin="normal" {...register('content')} multiline rows={3} />
+            <SubjectSelect control={control} name={'subject'} />
+            <MonthSelect control={control} name={'month'} />
+            <TextField fullWidth label="Описание" margin="normal" {...register('content')} multiline rows={8} />
             <TextField
               fullWidth
               label="ID преподавателя"

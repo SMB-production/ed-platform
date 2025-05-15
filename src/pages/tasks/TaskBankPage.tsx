@@ -10,6 +10,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
   Typography,
@@ -18,6 +19,7 @@ import { useTaskBank } from '@/shared/api/queries/taskBankApi.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { SubjectSelect, SubjectSelectRaw } from '@/shared/components/subject-select.tsx';
 
 export const TaskBankPage = () => {
   const navigate = useNavigate();
@@ -28,9 +30,16 @@ export const TaskBankPage = () => {
     is_auto: '',
   });
 
-  const { data, isLoading, isError } = useTaskBank(
-    Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '')),
-  );
+  const [page, setPage] = useState(0);
+  const pageSize = 20;
+
+  const queryParams = {
+    page: page + 1,
+    pageSize,
+    ...Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '')),
+  };
+
+  const { data, isLoading, isError } = useTaskBank(queryParams);
 
   const handleReset = () => {
     setFilters({
@@ -53,11 +62,11 @@ export const TaskBankPage = () => {
 
           {/* Фильтры */}
           <Box display="flex" gap={2} mb={3} alignItems="center">
-            <TextField
-              label="Предмет"
+            <SubjectSelectRaw
               value={filters.subject}
               onChange={(e) => setFilters((prev) => ({ ...prev, subject: e.target.value }))}
             />
+
             <TextField
               label="Номер задания"
               type="number"
@@ -84,44 +93,54 @@ export const TaskBankPage = () => {
           {isError && <Typography color="error">Ошибка при загрузке</Typography>}
 
           {data && (
-            <Table>
-              <TableHead sx={{ backgroundColor: '#e9ecef' }}>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Вопрос</TableCell>
-                  <TableCell>Ответ</TableCell>
-                  <TableCell>Предмет</TableCell>
-                  <TableCell>Номер задания</TableCell>
-                  <TableCell>Авто?</TableCell>
-                  <TableCell>Балл</TableCell>
-                  <TableCell>Подробнее</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((task) => (
-                  <TableRow key={task.id}>
-                    <TableCell>{task.id}</TableCell>
-                    <TableCell>{task.question}</TableCell>
-                    <TableCell>{task.correct_answer}</TableCell>
-                    <TableCell>{task.subject}</TableCell>
-                    <TableCell>{task.exam_number}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={task.is_auto ? 'Да' : 'Нет'}
-                        color={task.is_auto ? 'success' : 'warning'}
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell>{task.ball}</TableCell>
-                    <TableCell>
-                      <Button size="small" variant="outlined" onClick={() => navigate(`/task/${task.id}`)}>
-                        Подробнее
-                      </Button>
-                    </TableCell>
+            <>
+              <Table>
+                <TableHead sx={{ backgroundColor: '#e9ecef' }}>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Вопрос</TableCell>
+                    <TableCell>Ответ</TableCell>
+                    <TableCell>Предмет</TableCell>
+                    <TableCell>Номер задания</TableCell>
+                    <TableCell>Авто?</TableCell>
+                    <TableCell>Балл</TableCell>
+                    <TableCell>Подробнее</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {data.results.map((task) => (
+                    <TableRow key={task.id}>
+                      <TableCell>{task.id}</TableCell>
+                      <TableCell>{task.question}</TableCell>
+                      <TableCell>{task.correct_answer}</TableCell>
+                      <TableCell>{task.subject}</TableCell>
+                      <TableCell>{task.exam_number}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={task.is_auto ? 'Да' : 'Нет'}
+                          color={task.is_auto ? 'success' : 'warning'}
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell>{task.ball}</TableCell>
+                      <TableCell>
+                        <Button size="small" variant="outlined" onClick={() => navigate(`/task/${task.id}`)}>
+                          Подробнее
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <TablePagination
+                component="div"
+                count={data.count}
+                page={page}
+                onPageChange={(_, newPage) => setPage(newPage)}
+                rowsPerPage={pageSize}
+                rowsPerPageOptions={[pageSize]} // фиксированный размер
+              />
+            </>
           )}
         </Paper>
       </Container>
