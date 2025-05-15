@@ -68,7 +68,14 @@ export const TaskDetailPage = () => {
           ) : (
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate mt={3}>
               <Stack spacing={2}>
-                <TextField label="Вопрос" fullWidth defaultValue={data.question} {...register('question')} />
+                <TextField
+                  label="Вопрос"
+                  fullWidth
+                  multiline
+                  rows={10}
+                  defaultValue={data.question}
+                  {...register('question')}
+                />
                 <TextField
                   label="Правильный ответ"
                   fullWidth
@@ -100,7 +107,7 @@ export const TaskDetailPage = () => {
                     Файлы:
                   </Typography>
                   {data.files.map((f, i) => (
-                    <Link key={i} href={getFileLink(f.file)} target="_blank" rel="noopener" display="block">
+                    <Link key={i} href={f.file} target="_blank" rel="noopener" display="block">
                       {f.file.split('/').pop()}
                     </Link>
                   ))}

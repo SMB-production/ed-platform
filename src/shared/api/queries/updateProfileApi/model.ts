@@ -3,4 +3,6 @@ export type UpdateProfileDto = {
   email?: string;
   date_birth?: string;
   photo?: File | null;
+  first_name: string;
+  last_name: string;
 };

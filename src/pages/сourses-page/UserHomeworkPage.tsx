@@ -80,7 +80,7 @@ export const UserHomeworkPage = () => {
                           </Typography>
                           {ans.files.map((file) => (
                             <Box key={file.id}>
-                              <a href={getFileLink(file.file)} target="_blank" rel="noopener noreferrer">
+                              <a href={file.file} target="_blank" rel="noopener noreferrer">
                                 {file.file.split('/').pop()}
                               </a>
                             </Box>

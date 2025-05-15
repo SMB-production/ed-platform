@@ -76,7 +76,7 @@ export const LessonManagePage = () => {
                   <Typography fontWeight={600}>Файлы:</Typography>
                   <Stack>
                     {lesson.files.map((f, idx) => (
-                      <Link key={idx} href={getFileLink(f.file)} target="_blank" rel="noopener">
+                      <Link key={idx} href={f.file} target="_blank" rel="noopener">
                         {f.file.split('/').pop()}
                       </Link>
                     ))}

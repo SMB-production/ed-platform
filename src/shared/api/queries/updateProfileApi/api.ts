@@ -9,6 +9,8 @@ export const updateProfile = async (data: UpdateProfileDto) => {
   if (data.email) formData.append('email', data.email);
   if (data.date_birth) formData.append('date_birth', data.date_birth);
   if (data.photo) formData.append('photo', data.photo);
+  if (data.last_name) formData.append('last_name', data.last_name);
+  if (data.first_name) formData.append('first_name', data.first_name);
 
   const res = await axiosInstance.patch('/auth/users/me/', formData);
   return res.data;
