@@ -35,7 +35,7 @@ export const ProfilePage = () => {
   const Layout = ({ user, children }: { user: User; children: ReactNode }) => {
     if (user.is_admin || user.is_teacher) return <SidebarLayout>{children}</SidebarLayout>;
 
-    return <PageLayout>{children}</PageLayout>;
+    return <SidebarLayout>{children}</SidebarLayout>;
   };
 
   if (isLoading) return <Typography align="center">Загрузка...</Typography>;
