@@ -9,7 +9,11 @@ const SidebarContainer = styled(Paper)(({ theme }) => ({
   width: 250,
   padding: theme.spacing(2),
   borderRadius: 8,
-  height: 'fit-content',
+  position: 'sticky',
+  top: theme.spacing(2),
+  alignSelf: 'flex-start',
+  maxHeight: `calc(100vh - ${theme.spacing(4)})`,
+  overflowY: 'auto',
 }));
 
 type NavItem = {
@@ -19,10 +23,13 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { label: 'Курсы', path: '/courses', roles: ['student', 'teacher', 'admin'] },
+  { label: 'Курсы', path: '/courses', roles: ['teacher', 'admin'] },
   { label: 'Пользователи', path: '/users', roles: ['admin'] },
   { label: 'Банк заданий', path: '/task-bank', roles: ['teacher', 'admin'] },
   { label: 'Домашнее задание', path: '/homework/all', roles: ['teacher', 'admin'] },
+  { label: 'Мои курсы', path: '/courses', roles: ['student'] },
+  { label: 'Избранное', path: '/favorites', roles: ['student'] },
+  { label: 'Статистика', path: '/stats', roles: ['student'] },
 ];
 
 export const Sidebar = () => {
@@ -32,7 +39,6 @@ export const Sidebar = () => {
   if (!user) return null;
 
   const userRole: 'student' | 'teacher' | 'admin' = user.is_admin ? 'admin' : user.is_teacher ? 'teacher' : 'student';
-
   const visibleItems = navItems.filter((item) => item.roles.includes(userRole));
 
   return (

@@ -2,13 +2,14 @@ import { ButtonBase, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useUserCourses } from '@/shared/api/queries/userCoursesApi/api.ts';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
+import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 
 export const MyCoursesPage = () => {
   const { data, isLoading, isError } = useUserCourses();
   const navigate = useNavigate();
 
   return (
-    <PageLayout>
+    <SidebarLayout>
       <Container maxWidth="lg" sx={{ mt: 3 }}>
         <Typography variant="h4" gutterBottom>
           Ваше обучение
@@ -78,6 +79,6 @@ export const MyCoursesPage = () => {
           ))}
         </Grid>
       </Container>
-    </PageLayout>
+    </SidebarLayout>
   );
 };

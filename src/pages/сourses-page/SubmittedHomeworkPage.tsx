@@ -2,7 +2,6 @@ import { Box, Container, Link, Paper, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useSubmittedHomeworkById } from '@/shared/api/queries/submitHomeworkApi/api.ts';
 import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
-import { getFileLink } from '@/shared/get-file-link.ts';
 
 export const SubmittedHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
