@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useHomeworkToSolve, useSubmitHomework } from '@/shared/api/queries/solveHomeworkApi/api.ts';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
+import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 
 export const SolveHomeworkPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,7 +37,7 @@ export const SolveHomeworkPage = () => {
   };
 
   return (
-    <PageLayout>
+    <SidebarLayout>
       <Container maxWidth="md">
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4" gutterBottom>
@@ -83,6 +84,6 @@ export const SolveHomeworkPage = () => {
           </Box>
         </Paper>
       </Container>
-    </PageLayout>
+    </SidebarLayout>
   );
 };

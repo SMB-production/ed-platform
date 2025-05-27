@@ -13,6 +13,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSubmittedHomework } from '@/shared/api/queries/submitHomeworkApi/api.ts';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
+import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 
 export const HomeworkResultPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +22,7 @@ export const HomeworkResultPage = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout>
+    <SidebarLayout>
       <Container maxWidth="md">
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4" align="center" gutterBottom>
@@ -70,6 +71,6 @@ export const HomeworkResultPage = () => {
           )}
         </Paper>
       </Container>
-    </PageLayout>
+    </SidebarLayout>
   );
 };

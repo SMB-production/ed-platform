@@ -3,6 +3,7 @@ import { Button, Container, Link, List, ListItem, ListItemText, Paper, Typograph
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout.tsx';
 import { getFileLink } from '@/shared/get-file-link.ts';
+import { SidebarLayout } from '@/shared/components/PageLayout/SidebarLayout.tsx';
 
 export const LessonDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,7 +12,7 @@ export const LessonDetailPage = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout>
+    <SidebarLayout>
       <Container maxWidth="md">
         {isLoading && <Typography>Загрузка...</Typography>}
         {isError && <Typography color="error">Ошибка при загрузке урока</Typography>}
@@ -66,6 +67,6 @@ export const LessonDetailPage = () => {
           </Paper>
         )}
       </Container>
-    </PageLayout>
+    </SidebarLayout>
   );
 };

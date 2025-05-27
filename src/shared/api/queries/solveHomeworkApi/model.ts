@@ -1,4 +1,5 @@
 export type HomeworkTask = {
+  id: number;
   number: number;
   question: string;
   correct_answer: string;
@@ -9,5 +10,6 @@ export type HomeworkTask = {
 export type HomeworkToSolve = {
   id: number;
   title: string;
+  is_done: boolean;
   tasks: HomeworkTask[];
 };

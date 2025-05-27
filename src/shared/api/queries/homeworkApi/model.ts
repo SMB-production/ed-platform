@@ -1,4 +1,5 @@
 export type HomeworkTask = {
+  id: number;
   number: number;
   question: string;
   correct_answer: string;

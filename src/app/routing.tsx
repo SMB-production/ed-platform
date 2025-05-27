@@ -30,6 +30,8 @@ import { EditCourseDetailPage } from '@/pages/admin/EditCourseDetailPage.tsx';
 import { CoursesSwitch } from '@/pages/сourses-page/CoursesSwitch.tsx';
 import { TaskDetailPage } from '@/pages/tasks/TaskDetailPage.tsx';
 import { HomeworkIntroPage } from '@/pages/сourses-page/HomeworkIntroPage.tsx';
+import { FavoritesPage } from '@/pages/favPage.tsx';
+import { StudentStatsPage } from '@/pages/StudentStatsPage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -225,6 +227,22 @@ const routes: RouteObject[] = [
     element: (
       <ProtectedRoute requiredRole={['admin', 'teacher']}>
         <TaskDetailPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/favorites',
+    element: (
+      <ProtectedRoute requiredRole={['student']}>
+        <FavoritesPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/stats',
+    element: (
+      <ProtectedRoute requiredRole={['student']}>
+        <StudentStatsPage />
       </ProtectedRoute>
     ),
   },

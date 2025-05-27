@@ -60,7 +60,7 @@ export const EditProfilePage = () => {
     console.log(user);
     if (user.is_admin || user.is_teacher) return <SidebarLayout>{children}</SidebarLayout>;
 
-    return <PageLayout>{children}</PageLayout>;
+    return <SidebarLayout>{children}</SidebarLayout>;
   };
 
   if (isLoading) return <CentralLoader />;

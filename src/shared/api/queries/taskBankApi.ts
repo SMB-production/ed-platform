@@ -12,6 +12,7 @@ export type TaskItem = {
   is_auto: boolean;
   category: string;
   subject: string;
+  exam_number: number;
 };
 
 type TaskResponse = {

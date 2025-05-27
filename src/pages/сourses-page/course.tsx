@@ -11,7 +11,7 @@ export const CourseDetailPage = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout>
+    <SidebarLayout>
       <Container maxWidth="lg" sx={{ mt: 3 }}>
         {isLoading && <Typography>Загрузка...</Typography>}
         {isError && <Typography color="error">Ошибка при загрузке курса</Typography>}
@@ -68,6 +68,6 @@ export const CourseDetailPage = () => {
           </>
         )}
       </Container>
-    </PageLayout>
+    </SidebarLayout>
   );
 };
